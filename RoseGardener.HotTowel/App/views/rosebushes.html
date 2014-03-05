@@ -1,0 +1,27 @@
+﻿<section id="sessions-view" class="view">
+    <header>
+        <a class="btn btn-info btn-force-refresh pull-right"
+           data-bind="click: refresh" href="#"><i class="icon-refresh"></i>Refresh</a>
+        <h2 class="page-title" data-bind="text: title"></h2>
+        <div class="article-counter">
+            <address data-bind="text: rosebushes().length"></address>
+            <address>found</address>
+        </div>
+    </header>
+    <section class="view-list" data-bind="foreach: rosebushes">
+        <article class="article-left-content">
+            <div class="rosebush-brief" title="Go to rosebush details">
+                <!--<h1 data-bind="text: name"></h1>-->
+                <a data-bind="attr: { href: '/#/rosebushdetail/' + id()}">
+                    <img data-bind="attr: { src: imageName }" class="img-polaroid" />  
+                </a>
+                <address data-bind="text: name"></address>
+                <small data-bind="text: category().name" class="right"></small>
+                <small data-bind="text: price" class="right"></small>
+                <small data-bind="text: briefDescription"></small>
+                <!--<small data-bind="text:productTags" class="right"></small>-->
+                <small data-bind="text:color().name" class="right"></small>
+            </div>
+        </article>
+    </section>
+</section>

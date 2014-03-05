@@ -1,0 +1,502 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RoseGardenerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StarRating" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="Person_Id" Type="int" />
+          <Property Name="RoseBush_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="RoseBush">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="ImageSource" Type="nvarchar(max)" />
+          <Property Name="Category_Id" Type="int" />
+          <Property Name="BriefDescription" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProductTags" Type="nvarchar(max)" />
+          <Property Name="Color_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="RoseGarden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Width" Type="float" Nullable="false" />
+          <Property Name="Length" Type="float" Nullable="false" />
+          <Property Name="SquareFootage" Type="float" Nullable="false" />
+          <Property Name="Person_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Selection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="RoseBush_Id" Type="int" />
+          <Property Name="RoseGarden_Id" Type="int" />
+        </EntityType>
+        <Association Name="FK_dbo_Rating_dbo_Person_Person_Id">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rating_dbo_RoseBush_RoseBush_Id">
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoseBush">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="RoseBush_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RoseBush_dbo_Color_Color_Id">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoseBush">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RoseGarden_dbo_Person_Person_Id">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="RoseGarden" Type="Self.RoseGarden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoseGarden">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Selection_dbo_RoseBush_RoseBush_Id">
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="0..1" />
+          <End Role="Selection" Type="Self.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoseBush">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="RoseBush_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id">
+          <End Role="RoseGarden" Type="Self.RoseGarden" Multiplicity="0..1" />
+          <End Role="Selection" Type="Self.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoseGarden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="RoseGarden_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoseBush_Color">
+          <End Role="Color" Type="Self.Color" Multiplicity="0..1" />
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Color">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoseBush">
+              <PropertyRef Name="Color_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RoseGardenerModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoseBush" EntityType="Self.RoseBush" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoseGarden" EntityType="Self.RoseGarden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Selection" EntityType="Self.Selection" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Rating_dbo_Person_Person_Id" Association="Self.FK_dbo_Rating_dbo_Person_Person_Id">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rating_dbo_RoseBush_RoseBush_Id" Association="Self.FK_dbo_Rating_dbo_RoseBush_RoseBush_Id">
+            <End Role="RoseBush" EntitySet="RoseBush" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RoseBush_dbo_Color_Color_Id" Association="Self.FK_dbo_RoseBush_dbo_Color_Color_Id">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="RoseBush" EntitySet="RoseBush" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RoseGarden_dbo_Person_Person_Id" Association="Self.FK_dbo_RoseGarden_dbo_Person_Person_Id">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="RoseGarden" EntitySet="RoseGarden" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Selection_dbo_RoseBush_RoseBush_Id" Association="Self.FK_dbo_Selection_dbo_RoseBush_RoseBush_Id">
+            <End Role="RoseBush" EntitySet="RoseBush" />
+            <End Role="Selection" EntitySet="Selection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id" Association="Self.FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id">
+            <End Role="RoseGarden" EntitySet="RoseGarden" />
+            <End Role="Selection" EntitySet="Selection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoseBush_Color" Association="Self.FK_RoseBush_Color">
+            <End Role="Color" EntitySet="Color" />
+            <End Role="RoseBush" EntitySet="RoseBush" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RoseGardenerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoseBushes" Relationship="Self.FK_dbo_RoseBush_dbo_Category_Category_Id" FromRole="Category" ToRole="RoseBush" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK_dbo_Rating_dbo_Person_Person_Id" FromRole="Person" ToRole="Rating" />
+          <NavigationProperty Name="RoseGardens" Relationship="Self.FK_dbo_RoseGarden_dbo_Person_Person_Id" FromRole="Person" ToRole="RoseGarden" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StarRating" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Person_Id" Type="Int32" />
+          <Property Name="RoseBush_Id" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_dbo_Rating_dbo_Person_Person_Id" FromRole="Rating" ToRole="Person" />
+          <NavigationProperty Name="RoseBush" Relationship="Self.FK_dbo_Rating_dbo_RoseBush_RoseBush_Id" FromRole="Rating" ToRole="RoseBush" />
+        </EntityType>
+        <EntityType Name="RoseBush">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="ImageSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category_Id" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_dbo_RoseBush_dbo_Category_Category_Id" FromRole="RoseBush" ToRole="Category" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK_dbo_Rating_dbo_RoseBush_RoseBush_Id" FromRole="RoseBush" ToRole="Rating" />
+          <NavigationProperty Name="Selections" Relationship="Self.FK_dbo_Selection_dbo_RoseBush_RoseBush_Id" FromRole="RoseBush" ToRole="Selection" />
+          <Property Name="BriefDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductTags" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Color_Id" Type="Int32" />
+          <NavigationProperty Name="Color" Relationship="RoseGardenerModel.FK_RoseBush_Color" FromRole="RoseBush" ToRole="Color" />
+        </EntityType>
+        <EntityType Name="RoseGarden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Width" Type="Double" Nullable="false" />
+          <Property Name="Length" Type="Double" Nullable="false" />
+          <Property Name="SquareFootage" Type="Double" Nullable="false" />
+          <Property Name="Person_Id" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_dbo_RoseGarden_dbo_Person_Person_Id" FromRole="RoseGarden" ToRole="Person" />
+          <NavigationProperty Name="Selections" Relationship="Self.FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id" FromRole="RoseGarden" ToRole="Selection" />
+        </EntityType>
+        <EntityType Name="Selection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="RoseBush_Id" Type="Int32" />
+          <Property Name="RoseGarden_Id" Type="Int32" />
+          <NavigationProperty Name="RoseBush" Relationship="Self.FK_dbo_Selection_dbo_RoseBush_RoseBush_Id" FromRole="Selection" ToRole="RoseBush" />
+          <NavigationProperty Name="RoseGarden" Relationship="Self.FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id" FromRole="Selection" ToRole="RoseGarden" />
+        </EntityType>
+        <Association Name="FK_dbo_RoseBush_dbo_Category_Category_Id">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoseBush">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rating_dbo_Person_Person_Id">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RoseGarden_dbo_Person_Person_Id">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="RoseGarden" Type="Self.RoseGarden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoseGarden">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rating_dbo_RoseBush_RoseBush_Id">
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoseBush">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="RoseBush_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Selection_dbo_RoseBush_RoseBush_Id">
+          <End Role="RoseBush" Type="Self.RoseBush" Multiplicity="0..1" />
+          <End Role="Selection" Type="Self.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoseBush">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="RoseBush_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id">
+          <End Role="RoseGarden" Type="Self.RoseGarden" Multiplicity="0..1" />
+          <End Role="Selection" Type="Self.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoseGarden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="RoseGarden_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RoseGardenerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="Ratings" EntityType="Self.Rating" />
+          <EntitySet Name="RoseBushes" EntityType="Self.RoseBush" />
+          <EntitySet Name="RoseGardens" EntityType="Self.RoseGarden" />
+          <EntitySet Name="Selections" EntityType="Self.Selection" />
+          <AssociationSet Name="FK_dbo_RoseBush_dbo_Category_Category_Id" Association="Self.FK_dbo_RoseBush_dbo_Category_Category_Id">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="RoseBush" EntitySet="RoseBushes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rating_dbo_Person_Person_Id" Association="Self.FK_dbo_Rating_dbo_Person_Person_Id">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RoseGarden_dbo_Person_Person_Id" Association="Self.FK_dbo_RoseGarden_dbo_Person_Person_Id">
+            <End Role="Person" EntitySet="People" />
+            <End Role="RoseGarden" EntitySet="RoseGardens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rating_dbo_RoseBush_RoseBush_Id" Association="Self.FK_dbo_Rating_dbo_RoseBush_RoseBush_Id">
+            <End Role="RoseBush" EntitySet="RoseBushes" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Selection_dbo_RoseBush_RoseBush_Id" Association="Self.FK_dbo_Selection_dbo_RoseBush_RoseBush_Id">
+            <End Role="RoseBush" EntitySet="RoseBushes" />
+            <End Role="Selection" EntitySet="Selections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id" Association="Self.FK_dbo_Selection_dbo_RoseGarden_RoseGarden_Id">
+            <End Role="RoseGarden" EntitySet="RoseGardens" />
+            <End Role="Selection" EntitySet="Selections" />
+          </AssociationSet>
+          <EntitySet Name="Colors" EntityType="RoseGardenerModel.Color" />
+          <AssociationSet Name="FK_RoseBush_Color" Association="RoseGardenerModel.FK_RoseBush_Color">
+            <End Role="Color" EntitySet="Colors" />
+            <End Role="RoseBush" EntitySet="RoseBushes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoseBushes" Relationship="RoseGardenerModel.FK_RoseBush_Color" FromRole="Color" ToRole="RoseBush" />
+        </EntityType>
+        <Association Name="FK_RoseBush_Color">
+          <End Type="RoseGardenerModel.Color" Role="Color" Multiplicity="0..1" />
+          <End Type="RoseGardenerModel.RoseBush" Role="RoseBush" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Color">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoseBush">
+              <PropertyRef Name="Color_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RoseGardenerModelStoreContainer" CdmEntityContainer="RoseGardenerEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="RoseGardenerModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="RoseGardenerModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="RoseGardenerModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StarRating" ColumnName="StarRating" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Person_Id" ColumnName="Person_Id" />
+                <ScalarProperty Name="RoseBush_Id" ColumnName="RoseBush_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoseBushes">
+            <EntityTypeMapping TypeName="RoseGardenerModel.RoseBush">
+              <MappingFragment StoreEntitySet="RoseBush">
+                <ScalarProperty Name="Color_Id" ColumnName="Color_Id" />
+                <ScalarProperty Name="ProductTags" ColumnName="ProductTags" />
+                <ScalarProperty Name="BriefDescription" ColumnName="BriefDescription" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ImageSource" ColumnName="ImageSource" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoseGardens">
+            <EntityTypeMapping TypeName="RoseGardenerModel.RoseGarden">
+              <MappingFragment StoreEntitySet="RoseGarden">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="SquareFootage" ColumnName="SquareFootage" />
+                <ScalarProperty Name="Person_Id" ColumnName="Person_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Selections">
+            <EntityTypeMapping TypeName="RoseGardenerModel.Selection">
+              <MappingFragment StoreEntitySet="Selection">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="RoseBush_Id" ColumnName="RoseBush_Id" />
+                <ScalarProperty Name="RoseGarden_Id" ColumnName="RoseGarden_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colors">
+            <EntityTypeMapping TypeName="RoseGardenerModel.Color">
+              <MappingFragment StoreEntitySet="Color">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

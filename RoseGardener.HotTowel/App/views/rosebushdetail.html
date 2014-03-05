@@ -1,0 +1,75 @@
+﻿
+<section id="roseBush-view" class="view">
+    <h3 class="page-title" data-bind="text: title"></h3>
+    <div class="button-bar">
+        <button class="btn btn-info"
+                data-bind="click: goBack">
+            <i class="icon-hand-left"></i> Back
+        </button>
+        <button class="btn btn-info"
+                data-bind="click: cancel, enable: canSave">
+            <i class="icon-undo"></i> Cancel
+        </button>
+        <button class="btn btn-info"
+                data-bind="click: save, enable: canSave">
+            <i class="icon-save"></i> Save
+        </button>
+        <button class="btn btn-danger"
+                data-bind="click: deleteRoseBush, disable: hasChanges">
+            <i class="icon-trash"></i> Delete
+        </button>
+        <i class="icon-asterisk" data-bind="visible: hasChanges"></i>
+    </div>
+    <div data-bind="with: roseBush">
+        <div class="titleblock">
+            <label for="name">Name</label>
+            <input id="name" data-bind="value: name"
+                   placeholder="Session title" />
+        </div>
+        <div class="details-left">
+            <div>
+                <label>Category</label>
+                <select data-bind="options: $parent.categories,
+                        optionsText: 'name', value: category"></select>
+            </div>
+            <div>
+                <label>Color</label>
+                <select data-bind="options: $parent.colors,
+                        optionsText: 'name', value: color"></select>
+            </div>
+            <!--<div>
+                <label>Rating</label>
+                <select data-bind="options: $parent.ratings,
+                        optionsText: 'name', value: rating"></select>
+            </div>-->
+            <div>
+                <label>Price</label>
+                <input data-bind="value: price" placeholder="Price" />
+            </div>
+            <div>
+                <label>Brief Description</label>
+                <input data-bind="value: briefDescription" placeholder="Brief Description" />
+            </div>
+            <div>
+                <label>Product Tags</label>
+                <input data-bind="value: productTags" placeholder="Product Tags" />
+            </div>
+            <!--<div>
+                <label>Tags</label>
+                <input data-bind="value: tagsFormatted"
+                       placeholder="Tags" />
+            </div>-->
+            <div>
+                <img data-bind="attr: { src: imageName }" class="img-polaroid" />
+                <address data-bind="text: name"></address>
+            </div>
+        </div>
+        <div class="details-right">
+            <div>
+                <label>Description</label>
+                <textarea data-bind="value: description"
+                          placeholder="Enter description"></textarea>
+            </div>
+        </div>
+    </div>
+</section>
